@@ -16,7 +16,7 @@ function addNews(news){
 
 
 var newsTemplate = Handlebars.compile($('#newsItemTemplate').html());
-var socket = io.connect('http://localhost');
+var socket = io.connect('http://hack.mvpexpress.com');
 
 
 socket.on('news', function(data){
@@ -52,6 +52,7 @@ socket.on('close news', function(data){
 
 $(function(){
    $('#enterUsername').modal();
+   $('body').keyup(function(e) { if ( e.which == 219 ) { $('#addNewsBtn').click();  } } );
    $('#addNewsBtn').click(function(){
         socket.emit('create news');
         $(this).addClass('hide');

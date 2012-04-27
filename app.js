@@ -33,7 +33,7 @@ var server = http.createServer(function(request, response){
         }
     });
 });
-server.listen(8000);
+server.listen(80);
 
 // Create a Socket.IO instance, passing it our server
 var io = sio.listen(server);
