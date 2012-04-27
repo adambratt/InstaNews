@@ -14,51 +14,31 @@ function getTime(){
 
 var socket = io.connect('http://localhost');
 
-var NewsItem = function(title, date, ticker){
-    var self = this;
-    
-    // Data
-    self.title = ko.observable(title);
-    self.date = date;
-    self.ticker = ko.observable(ticker);
-    self.editing = ko.observable(false);
-    
-    // Behaviors
-    this.edit = function() { this.editing(true) }
-}
 
-var FeedViewModel = function() {
-    var self = this;
+
+var NewsItem = Backbone.Model.extend({
+   
+   idAttribute: "_id",
+   
+   create: function() {
     
-    // Data
-    self.newsToAdd = ko.observable(new NewsItem("","",""));
-    self.tickerToAdd = ko.observable();
-    self.titleToAdd = ko.observable();
-    self.username = ko.observable();
-    self.news = ko.observableArray([
-        new NewsItem("Bob Jones Uni", "Today", "AAPL"),
-        new NewsItem("This is an itemz", "Today", "AAPL")
-    ]);
+   },
+   
+   edit: function() {
     
-    // Behaviours
-    self.createNews = function(news) {
-      $('.addnews').show();
-      self.newsToAdd = ko.observable(new NewsItem("", getTime(), ""));
-      $('.addnews input').val('');
-      self.news.unshift(self.newsToAdd);
-    };
-    
-    self.addNews = function() {
-        socket.emit('add news', {'title': self.titleToAdd(), 'date': getTime(), 'ticker': self.tickerToAdd()});
-        $('.addnews').hide();
-    }
-    
-    
-}
+   }
+   
+});
+
+var NewsFeed = Backbone.Model.extend({
+   model: NewsItem 
+});
+
+
+
 
 var editingId = 0;
 
-ko.applyBindings(new FeedViewModel());
 
 socket.on('news', function(data){
    console.log(data); 
