@@ -8,6 +8,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/underscore.js"></script>
     <script src="js/knockout.js"></script>
+    <script src="js/handlebars.js"></script>
     <script src="js/bootstrap-modal.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css" />
   </head>
@@ -16,14 +17,14 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="logo pull-right" href="#"><img src="http://cdn.pro.benzinga.com/sites/all/modules/custom/bzliveupdates/v8/images/app_small_logo.png"></a>
-          <a href="#" class="btn btn-info" id="addNewsBtn" data-bind="click: createNews">Add news</a>
+          <button class="btn btn-info" id="addNewsBtn">Add news</button>
           <a class="brand" href="#">InstaNews</a>
         </div>
       </div>
     </div>
     <div class="content">
       <div class="addnews" style='display: none;'>
-        <form data-bind="submit: addNews">
+        <form>
           <div class="row">
             <div class="span1"><strong>Date</strong></div>
             <div class="span1"><strong>Ticker</strong></div>
@@ -32,10 +33,10 @@
           <div class="row">
             <div class="span1 date" id="addDate"></div>
             <div class="span1 ticker">
-              <input type="text" data-bind="value: newsToAdd().ticker, valueUpdate: 'afterkeydown'" class="span1">
+              <input type="text" class="span1">
             </div>
             <div class="span8">
-              <input type="text" data-bind="value: newsToAdd().title, valueUpdate: 'afterkeydown'" class="span8">
+              <input type="text" class="span8">
             </div>
             <div class="span1">
               <button type="submit" class="btn btn-primary">Post</button>
@@ -44,31 +45,33 @@
           </div>
         </form>
       </div>
-      <div class="newsfeed" data-bind="foreach: news">
-        <div class="news">
-          <div class="row">
-            <div class="span1 date" data-bind="text: date"></div>
-            <div class="span1 ticker">
-              <span data-bind="text: ticker, visible: !editing()"></span>
-              <input data-bind="visible: editing, value: ticker" class="span1">
-            </div>
-            <div class="span8">
-              <h4 class="headline" data-bind="text: title, visible: !editing(), click: edit"></h4>
-              <input data-bind="visible: editing, value: title, hasfocus: editing">
-            </div>
+      <div class="newsfeed">
+        
+      </div>
+    </div>
+    <script id="newsItemTemplate" type="text/x-handlebars-template">
+      <div class="news {{#unless title}}green{{/unless}}" rel="{{id}}">
+        <div class="row">
+          <div class="span1 date">{{date}}</div>
+          <div class="span1 ticker">
+            <span>{{ticker}}</span>
+            <input type="text" name="ticker" class="span1 hide" value="{{ticker}}">
+          </div>
+          <div class="span8">
+            <h4 class="headline">{{title}}</h4>
+            <input type="text" name="headline" class="span8 hide" value="{{title}}">
+            <div class="hide istyping"></div>
           </div>
         </div>
       </div>
-    </div>
+    </script>
     <div class="modal fade" id="enterUsername">
       <div class="modal-header">
         <button class="close" data-dismiss="modal">x</button>
         <h3>Welcome to InstaNews</h3>
       </div>
       <div class="modal-body">
-        <form>
-          <input type="text" name="username" class="input-xlarge" placeholder="Enter Username" data-bind="value: username">
-        </form>
+        <input type="text" name="username" class="input-xlarge" placeholder="Enter Username" id="username">
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal">Get Started</button>
