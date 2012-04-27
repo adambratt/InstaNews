@@ -1,6 +1,7 @@
 var http = require('http'),
     sio = require('socket.io'),
     fs = require('fs'),
+    mongo = require('mongodb'),
     path = require('path');
 
 // Start the server at port 8080
@@ -38,7 +39,8 @@ server.listen(8000);
 // Create a Socket.IO instance, passing it our server
 var io = sio.listen(server);
 
-var i = 1;
+var i = 3;
+var news = [{id: 1, title: 'A live example', ticker: 'AAPL'}, {id: 2, title: 'More Info', ticker: 'F'}];
 
 // "Routing" for Socket.IO
 io.sockets.on('connection', function (socket) {
@@ -49,4 +51,3 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit('news', {'title': 'something', 'ticker': 'ok', 'date': 'lol'});
     });                    
 });
-

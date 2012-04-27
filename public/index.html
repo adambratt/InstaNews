@@ -49,12 +49,12 @@
           <div class="row">
             <div class="span1 date" data-bind="text: date"></div>
             <div class="span1 ticker">
-              <span data-bind="text: ticker, visible: !editing(), click: edit"></span>
+              <span data-bind="text: ticker, visible: !editing()"></span>
               <input data-bind="visible: editing, value: ticker" class="span1">
             </div>
             <div class="span8">
               <h4 class="headline" data-bind="text: title, visible: !editing(), click: edit"></h4>
-              <input data-bind="visible: editing, value: title" class="span8">
+              <input data-bind="visible: editing, value: title, hasfocus: editing">
             </div>
           </div>
         </div>
